@@ -7,7 +7,7 @@ react-ssr
 npm install nodemon -g
 npm install npm-run-all -g
 ```
-
+局部安装
 ```
 npm install
 ```

@@ -1,10 +1,12 @@
-var path = require('path');
-var nodeExternals = require('webpack-node-externals');
+const path = require('path');
+const nodeExternals = require('webpack-node-externals');
+const merge = require('webpack-merge');
+const baseConfig = require('./webpack.base.js');
 
-module.exports={
+const serverConfig = {
   target: 'node',
   mode: 'development',
-  entry: './src/index.js',
+  entry: './src/server/index.js',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname,'build')
@@ -20,3 +22,5 @@ module.exports={
     ]
   }
 }
+
+module.exports = merge(baseConfig,serverConfig);
