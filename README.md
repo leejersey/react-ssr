@@ -1,5 +1,5 @@
 # react-ssr
-react-ssr
+react服务端渲染demo
 
 ## 安装
 全局安装
