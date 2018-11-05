@@ -1,22 +1,22 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import Routes from '../Routes';
+import { BrowserRouter, Route } from 'react-router-dom';
+import routes from '../Routes';
+import { getClientStore } from '../store';
 
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
-const reducer = (state = { name: 'jersey'}, action) => {
-  return state;
-}
-
-const store = createStore(reducer);
+const store = getClientStore();
 
 const App = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        {Routes}
+        <div>
+          {routes.map(route => (
+              <Route {...route} />
+          ))}
+        </div>
       </BrowserRouter>
     </Provider>
   )
