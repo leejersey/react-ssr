@@ -6,7 +6,7 @@ import { getHomeList } from './store/actions';
 class Home extends Component {
   componentDidMount(){
     if(!this.props.list.length){
-      this.props.getHomeList();
+      this.props.getHomeList(false);
     }
   }
 
@@ -26,7 +26,7 @@ class Home extends Component {
 
 Home.loadData = (store) => {
   //负责在度无端渲染之前把这个路由所需要的数据加载好
-  return store.dispatch(getHomeList())
+  return store.dispatch(getHomeList(true))
 }
 
 
