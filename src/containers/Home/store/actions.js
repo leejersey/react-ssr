@@ -1,7 +1,5 @@
 import axios from 'axios';
 import { GET_HOME_LIST } from './constants';
-import clientAxios from '../../../client/request';
-import serverAxios from '../../../server/request';
 
 const createHomeList = (list) => {
   return {
@@ -10,11 +8,11 @@ const createHomeList = (list) => {
   }
 }
 
-export const getHomeList = (server) => {
+export const getHomeList = () => {
   //const url = server ? 'http://localhost:9090/api/getHomeList' : '/api/getHomeList'
-  const request = server ? serverAxios : clientAxios;
-  return (dispatch) => {
-    return request.get('/api/getHomeList').then((res) => {
+  // const request = server ? serverAxios : clientAxios;
+  return (dispatch, getState, axiosInstance) => {
+    return axiosInstance.get('/api/getHomeList').then((res) => {
       const list = res.data.data;
       dispatch(createHomeList(list));
     })
