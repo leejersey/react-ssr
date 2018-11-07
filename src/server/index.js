@@ -9,12 +9,11 @@ const app = express();
 app.use(express.static('public'));
 app.use('/api',proxy('localhost:9090', {
   proxyReqPathResolver: function (req) {
-    console.log(req.url)
     return '/api'+req.url;
   }
 }));
 
-app.get('*',function(req,res){
+app.get('*',function(req, res){
   const store = getStore();
 
   const matchedRoutes = matchRoutes(routes, req.path);
@@ -23,12 +22,23 @@ app.get('*',function(req,res){
 
   matchedRoutes.forEach(item => {
     if(item.route.loadData){
-      promises.push(item.route.loadData(store));
+      const promise = new Promise((resolve, reject) => {
+          item.route.loadData(store).then(resolve).catch(resolve);
+      })
+      promises.push(promise);
     }
   });
 
   Promise.all(promises).then(() => {
-    res.send(render(store, routes, req))
+    const context = {css:[]};
+    const html = render(store, routes, req, context);
+    if(context.NOT_FOUND){
+      res.status(404);
+      res.send(html);
+    }else{
+      res.send(html);
+    }
+
   });
 
 });

@@ -18,6 +18,20 @@ const serverConfig = {
         test: /\.js?$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'isomorphic-style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              modules:true,
+              localIdentName: '[name]_[local]_[hash:base64:6]'
+            }
+          }
+        ]
       }
     ]
   }

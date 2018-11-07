@@ -1,8 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import {Helmet} from "react-helmet";
 import { connect } from 'react-redux';
 import { getHomeList } from './store/actions';
 
+import withStyle from '../../withStyle';
+import styles from './style.css';
+
 class Home extends Component {
+
   componentDidMount(){
     if(!this.props.list.length){
       this.props.getHomeList();
@@ -11,21 +16,24 @@ class Home extends Component {
 
   render(){
     return (
-      <div>
-        {
-          this.props.list.map((item) => {
-            return <div key={item.id}>{item.name}</div>
-          })
-        }
-      </div>
+      <Fragment>
+        <Helmet>
+            <meta charSet="utf-8" />
+            <title>这是首页</title>
+        </Helmet>
+        <div className={styles.test}>
+          {
+            this.props.list.map((item) => {
+              return <div key={item.id}>{item.name}</div>
+            })
+          }
+        </div>
+      </Fragment>
     );
   }
 }
 
-Home.loadData = (store) => {
-  //负责在度无端渲染之前把这个路由所需要的数据加载好
-  return store.dispatch(getHomeList())
-}
+
 
 
 const mapStateToProps = state => ({
@@ -39,4 +47,11 @@ const mapDispathToProps = dispatch => ({
   }
 })
 
-export default connect(mapStateToProps, mapDispathToProps)(Home);
+const ExportHome = connect(mapStateToProps, mapDispathToProps)(withStyle(Home, styles));
+
+ExportHome.loadData = (store) => {
+  //负责在度无端渲染之前把这个路由所需要的数据加载好
+  return store.dispatch(getHomeList())
+}
+
+export default ExportHome;
